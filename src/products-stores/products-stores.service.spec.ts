@@ -96,6 +96,15 @@ describe("ProductsStoresService", () => {
     )).rejects.toHaveProperty("message", "The store with the given id was not found in the product");
   });
 
+  it("get a stores to valid product should return  stores", async () => {
+    await service.addStoreToProduct(
+      productsList[0].id,
+      storeEntities[0].id
+    );
+    const storeEntity = await service.findStoresFromProduct(productsList[0].id);
+    expect(storeEntity.length).toBeGreaterThanOrEqual(1);
+  });
+
   it("get a valid store to valid product should return value", async () => {
     await service.addStoreToProduct(
       productsList[0].id,
@@ -105,5 +114,25 @@ describe("ProductsStoresService", () => {
     expect(storeEntity.id).toEqual(storeEntities[0].id);
   });
 
+  it("update all stores should return product's store updated", async () => {
+    await service.addStoreToProduct(
+      productsList[0].id,
+      storeEntities[0].id
+    );
+    const productEntity = await service.updateStoresFromProduct(productsList[0].id, [storeEntities[1].id]);
+    expect(productEntity.stores.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("remove a store should return a product without store", async () => {
+    await service.addStoreToProduct(
+      productsList[0].id,
+      storeEntities[0].id
+    );
+    const oldProduct = await service.findStoresFromProduct(productsList[0].id);
+    expect(oldProduct.length).toBeGreaterThanOrEqual(1);
+    await service.deleteStoresFromProduct(productsList[0].id, storeEntities[0].id);
+    const newProduc = await service.findStoresFromProduct(productsList[0].id);
+    expect(newProduc.length).toEqual(0);
+  });
 });
 

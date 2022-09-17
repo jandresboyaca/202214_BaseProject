@@ -45,8 +45,10 @@ export class ProductsStoresService {
     });
 
     for (const id of storesId) {
-      await this.storeService.findOne(id);
-    }
+      const newStore = await this.storeService.findOne(id);
+      product.stores = product.stores
+        ? [...product.stores, newStore]
+        : [newStore];}
     return await this.productService.update(productId, product);
   }
 

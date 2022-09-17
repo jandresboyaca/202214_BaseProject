@@ -25,14 +25,14 @@ export class ProductController {
 
   @Post()
   async create(@Body() productDto: ProductDto) {
-    const restaurant: ProductEntity = plainToInstance(ProductEntity, productDto);
-    return await this.productService.create(restaurant);
+    const pro: ProductEntity = plainToInstance(ProductEntity, productDto);
+    return await this.productService.create(pro);
   }
 
   @Put(":productID")
   async update(@Param("productID") productID: string, @Body() productDto: ProductDto) {
-    const restaurant: ProductEntity = plainToInstance(ProductEntity, productDto);
-    return await this.productService.update(productID, restaurant);
+    const product: ProductEntity = plainToInstance(ProductEntity, productDto);
+    return await this.productService.update(productID, product);
   }
 
   @Delete(":productID")
